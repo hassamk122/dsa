@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type MaxHeap struct {
 	array []int
@@ -95,23 +97,40 @@ func right(i int) int {
 }
 
 func main() {
+	score := []int{5, 4, 3, 2, 1}
+
+	retunredArr := findRelativeRanks(score)
+
+	fmt.Println(retunredArr)
+}
+
+func findRelativeRanks(score []int) []string {
 	m := &MaxHeap{}
-	buildHeap := []int{10, 20, 30}
-	for _, v := range buildHeap {
+	for _, v := range score {
 		m.Insert(v)
-		fmt.Println(m)
 	}
 
-	m.Extract()
+	tempMap := map[int]string{}
 
-	fmt.Println(m)
-	m.Extract()
+	for i := range score {
+		extractedVal := m.Extract()
+		switch i {
+		case 0:
+			tempMap[extractedVal] = "Gold Medal"
+		case 1:
+			tempMap[extractedVal] = "Silver Medal"
+		case 2:
+			tempMap[extractedVal] = "Bronze Medal"
+		default:
+			tempMap[extractedVal] = fmt.Sprintf("%d", i+1)
+		}
+	}
 
-	fmt.Println(m)
-	m.Extract()
+	newArr := []string{}
+	for i := range score {
 
-	fmt.Println(m)
-	m.Extract()
+		newArr = append(newArr, tempMap[score[i]])
+	}
 
-	fmt.Println(m)
+	return newArr
 }
