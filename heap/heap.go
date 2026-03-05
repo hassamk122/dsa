@@ -16,8 +16,9 @@ func (h *MaxHeap) Insert(key int) {
 // compares with current with parent
 // until curr is at suitable place
 func (h *MaxHeap) maxHeapifyUp(index int) {
-	for h.array[parent(index)] < h.array[index] {
-		h.swap(parent(index), index)
+	for index > 0 && h.array[parent(index)] < h.array[index] {
+		p := parent(index)
+		h.swap(p, index)
 		index = parent(index)
 	}
 }
@@ -102,6 +103,7 @@ func main() {
 	retunredArr := findRelativeRanks(score)
 
 	fmt.Println(retunredArr)
+
 }
 
 func findRelativeRanks(score []int) []string {

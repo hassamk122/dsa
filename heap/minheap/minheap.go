@@ -12,9 +12,10 @@ func (h *MinHeap) Insert(key int) {
 }
 
 func (h *MinHeap) minheapifyUp(index int) {
-	if h.array[parent(index)] > h.array[index] {
-		h.swap(parent(index), index)
-		index = parent(index)
+	for index > 0 && h.array[parent(index)] > h.array[index] {
+		p := parent(index)
+		h.swap(p, index)
+		index = p
 	}
 }
 
@@ -61,6 +62,10 @@ func (h *MinHeap) swap(a, b int) {
 	h.array[a], h.array[b] = h.array[b], h.array[a]
 }
 
+func (h *MinHeap) isEmpty() bool {
+	return len(h.array) == 0
+}
+
 func parent(index int) int {
 	return (index - 1) / 2
 }
@@ -93,4 +98,31 @@ func main() {
 	m.Extract()
 
 	fmt.Println(m)
+
+	fmt.Println("number game ---  -- ")
+	nums := []int{2, 5}
+	fmt.Println(numberGame(nums))
+}
+
+func numberGame(nums []int) []int {
+	m := &MinHeap{}
+
+	for _, v := range nums {
+		m.Insert(v)
+	}
+
+	alice := 0
+	bob := 0
+
+	newArr := []int{}
+	for !m.isEmpty() {
+		alice = m.Extract()
+		bob = m.Extract()
+
+		newArr = append(newArr, bob)
+		newArr = append(newArr, alice)
+	}
+
+	return newArr
+
 }
