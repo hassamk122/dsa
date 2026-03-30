@@ -27,21 +27,57 @@ func NewSinglyLinkedList() *SinglyLinkedList {
 }
 
 func (l *SinglyLinkedList) AppendToHead(data int) {
-	if l.head == nil {
-		l.head = NewNode(data)
-	} else {
-		newNode := NewNode(data)
-		newNode.next = l.head
+
+	newNode := NewNode(data)
+
+	if l.EmptyList() {
 		l.head = newNode
+		return
 	}
+
+	if l.OnlyOneNode() {
+		l.tail = l.head
+		l.head.next = l.tail
+	}
+
+	newNode.next = l.head
+	l.head = newNode
+}
+
+func (l *SinglyLinkedList) AppendToTail(data int) {
+
+	newNode := NewNode(data)
+
+	if l.EmptyList() {
+		l.head = newNode
+		return
+	}
+
+	if l.OnlyOneNode() {
+		l.tail = newNode
+		l.head.next = l.tail
+		return
+	}
+
+	l.tail.next = newNode
+	l.tail = newNode
 }
 
 func (l *SinglyLinkedList) Display() {
 	curr := l.head
 	for curr != nil {
-		fmt.Println(curr.data)
+		fmt.Printf("%d->", curr.data)
 		curr = curr.next
 	}
+	fmt.Println()
+}
+
+func (l *SinglyLinkedList) EmptyList() bool {
+	return l.head == nil
+}
+
+func (l *SinglyLinkedList) OnlyOneNode() bool {
+	return l.head != nil && l.head.next == nil
 }
 
 func main() {
@@ -50,6 +86,7 @@ func main() {
 	sl.AppendToHead(2)
 	sl.AppendToHead(1)
 	sl.AppendToHead(0)
+	sl.AppendToTail(4)
 
 	sl.Display()
 }
