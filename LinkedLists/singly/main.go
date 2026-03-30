@@ -2,31 +2,31 @@ package main
 
 import "fmt"
 
-type Node struct {
-	data int
-	next *Node
+type Node[T any] struct {
+	data T
+	next *Node[T]
 }
 
-func NewNode(data int) *Node {
-	return &Node{
+func NewNode[T any](data T) *Node[T] {
+	return &Node[T]{
 		data: data,
 		next: nil,
 	}
 }
 
-type SinglyLinkedList struct {
-	head *Node
-	tail *Node
+type SinglyLinkedList[T any] struct {
+	head *Node[T]
+	tail *Node[T]
 }
 
-func NewSinglyLinkedList() *SinglyLinkedList {
-	return &SinglyLinkedList{
+func NewSinglyLinkedList[T any]() *SinglyLinkedList[T] {
+	return &SinglyLinkedList[T]{
 		head: nil,
 		tail: nil,
 	}
 }
 
-func (l *SinglyLinkedList) AppendToHead(data int) {
+func (l *SinglyLinkedList[T]) AppendToHead(data T) {
 
 	newNode := NewNode(data)
 
@@ -44,7 +44,7 @@ func (l *SinglyLinkedList) AppendToHead(data int) {
 	l.head = newNode
 }
 
-func (l *SinglyLinkedList) AppendToTail(data int) {
+func (l *SinglyLinkedList[T]) AppendToTail(data T) {
 
 	newNode := NewNode(data)
 
@@ -63,30 +63,30 @@ func (l *SinglyLinkedList) AppendToTail(data int) {
 	l.tail = newNode
 }
 
-func (l *SinglyLinkedList) Display() {
+func (l *SinglyLinkedList[T]) Display() {
 	curr := l.head
 	for curr != nil {
-		fmt.Printf("%d->", curr.data)
+		fmt.Printf("%v->", curr.data)
 		curr = curr.next
 	}
 	fmt.Println()
 }
 
-func (l *SinglyLinkedList) EmptyList() bool {
+func (l *SinglyLinkedList[T]) EmptyList() bool {
 	return l.head == nil
 }
 
-func (l *SinglyLinkedList) OnlyOneNode() bool {
+func (l *SinglyLinkedList[T]) OnlyOneNode() bool {
 	return l.head != nil && l.head.next == nil
 }
 
 func main() {
-	sl := NewSinglyLinkedList()
-	sl.AppendToHead(3)
-	sl.AppendToHead(2)
-	sl.AppendToHead(1)
-	sl.AppendToHead(0)
-	sl.AppendToTail(4)
+	sl := NewSinglyLinkedList[string]()
+	sl.AppendToHead("1")
+	sl.AppendToHead("2")
+	sl.AppendToHead("3")
+	sl.AppendToHead("5")
+	sl.AppendToTail("4")
 
 	sl.Display()
 }
