@@ -1,25 +1,31 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-type Node[T any] struct {
+type AllowedTypes interface {
+	int | string | rune
+}
+
+type Node[T AllowedTypes] struct {
 	data T
 	next *Node[T]
 }
 
-func NewNode[T any](data T) *Node[T] {
+func NewNode[T AllowedTypes](data T) *Node[T] {
 	return &Node[T]{
 		data: data,
 		next: nil,
 	}
 }
 
-type SinglyLinkedList[T any] struct {
+type SinglyLinkedList[T AllowedTypes] struct {
 	head *Node[T]
 	tail *Node[T]
 }
 
-func NewSinglyLinkedList[T any]() *SinglyLinkedList[T] {
+func NewSinglyLinkedList[T AllowedTypes]() *SinglyLinkedList[T] {
 	return &SinglyLinkedList[T]{
 		head: nil,
 		tail: nil,
@@ -44,6 +50,20 @@ func (l *SinglyLinkedList[T]) AppendToHead(data T) {
 	l.head = newNode
 }
 
+func (l *SinglyLinkedList[T]) RemoveFromHead() {
+	if l.EmptyList() {
+		return
+	}
+
+	if l.OnlyOneNode() {
+		l.head = nil
+		l.tail = nil
+		return
+	}
+
+	l.head = l.head.next
+}
+
 func (l *SinglyLinkedList[T]) AppendToTail(data T) {
 
 	newNode := NewNode(data)
@@ -61,6 +81,43 @@ func (l *SinglyLinkedList[T]) AppendToTail(data T) {
 
 	l.tail.next = newNode
 	l.tail = newNode
+}
+
+func (l *SinglyLinkedList[T]) RemoveFromTail() {
+	if l.EmptyList() {
+		return
+	}
+
+	if l.OnlyOneNode() {
+		l.head = nil
+		l.tail = nil
+		return
+	}
+
+	prev := l.head
+	for prev.next.next != nil {
+		prev = prev.next
+	}
+
+	l.tail = prev
+	l.tail.next = nil
+}
+
+func (l *SinglyLinkedList[T]) Search(key T) {
+	curr := l.head
+	for curr != nil {
+		if curr.data == key {
+			fmt.Println("Found")
+			return
+		}
+		curr = curr.next
+	}
+	fmt.Println("Not found")
+}
+
+func (l *SinglyLinkedList[T]) RemoveAll() {
+	l.head = nil
+	l.tail = nil
 }
 
 func (l *SinglyLinkedList[T]) Display() {
@@ -89,4 +146,13 @@ func main() {
 	sl.AppendToTail("4")
 
 	sl.Display()
+
+	sl.RemoveFromHead()
+
+	sl.Display()
+
+	sl.RemoveFromTail()
+	sl.Display()
+
+	sl.Search("22")
 }
