@@ -41,7 +41,6 @@ func sortColors(nums []int) {
 		}
 	}
 
-	for i := range nums {
-		nums[i] = newArr[i]
-	}
+	copy(nums, newArr)
+
 }
