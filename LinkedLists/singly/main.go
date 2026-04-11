@@ -103,6 +103,24 @@ func (l *SinglyLinkedList[T]) RemoveFromTail() {
 	l.tail.next = nil
 }
 
+func (l *SinglyLinkedList[T]) Delete(data T) {
+	temp := l.head
+
+	if temp.data == data {
+		l.head = l.head.next
+		return
+	}
+
+	for temp.next != nil {
+		if temp.next.data == data {
+			temp.next = temp.next.next
+			return
+		}
+		temp = temp.next
+	}
+
+}
+
 func (l *SinglyLinkedList[T]) Search(key T) {
 	curr := l.head
 	for curr != nil {
@@ -152,6 +170,8 @@ func main() {
 	sl.Display()
 
 	sl.RemoveFromTail()
+
+	sl.Delete("3")
 	sl.Display()
 
 	sl.Search("22")
