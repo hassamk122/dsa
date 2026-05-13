@@ -9,7 +9,6 @@ func main() {
 	nums := []int{1, 1, 2}
 
 	k := removeDuplicates(nums)
-
 	fmt.Println(k)
 }
 

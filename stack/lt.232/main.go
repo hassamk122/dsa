@@ -41,14 +41,14 @@ func (s *Stack) Pop() int {
 }
 
 type Queue struct {
-	leftStack  *Stack
-	rightStack *Stack
+	leftStack  Stack
+	rightStack Stack
 }
 
-func NewQueue() *Queue {
-	return &Queue{
-		leftStack:  &Stack{},
-		rightStack: &Stack{},
+func NewQueue() Queue {
+	return Queue{
+		leftStack:  Stack{},
+		rightStack: Stack{},
 	}
 }
 
